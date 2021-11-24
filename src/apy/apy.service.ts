@@ -27,13 +27,14 @@ export class ApyService {
   }
 
   async create(entity: ApyEntity): Promise<ApyEntity> {
-    const interest_rate = entity.interest_rate / 100;
+    const interest_rate = entity.interest_rate;
     const yearly_compound_times = entity.yearly_compound_times;
-    let apy = Math.pow(
-      1 + interest_rate / yearly_compound_times,
-      yearly_compound_times - 1,
-    );
-    apy = Number(apy.toFixed(3));
+    let apy =
+      Math.pow(
+        1 + interest_rate / yearly_compound_times,
+        yearly_compound_times,
+      ) - 1;
+    apy = Number(apy.toFixed(5)) * 100;
     return await this.apyRepository.save({
       ...entity,
       apy,
